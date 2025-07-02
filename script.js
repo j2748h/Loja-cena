@@ -33,7 +33,7 @@ let dadosSite = {
       precoOriginal: 'R$ 89,99',
       imagem: 'https://images.unsplash.com/photo-1581093588401-48d88c0c938e?w=400&h=300&fit=crop',
       categoria: 'Educação',
-      estoque: 10 ,
+      estoque: 50,
       link: 'https://wa.me/5598989190240?text=Tenho interesse no Plano Básico com apostila e aulas presenciais/online',
       linkKiwify: 'https://kiwify.com.br/plano-basico-apostila'
     },
