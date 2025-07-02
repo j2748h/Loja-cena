@@ -33,7 +33,7 @@ let dadosSite = {
       precoOriginal: 'R$ 89,99',
       imagem: 'https://images.unsplash.com/photo-1581093588401-48d88c0c938e?w=400&h=300&fit=crop',
       categoria: 'Educação',
-      estoque: 10,
+      estoque: 10 ,
       link: 'https://wa.me/5598989190240?text=Tenho interesse no Plano Básico com apostila e aulas presenciais/online',
       linkKiwify: 'https://kiwify.com.br/plano-basico-apostila'
     },
@@ -43,8 +43,8 @@ let dadosSite = {
       preco: 'R$ 79,99',
       precoOriginal: 'R$ 109,99',
       imagem: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&h=300&fit=crop',
-      categoria: 'Educação',
-      estoque: 20,
+      categoria: 'Educação' ,
+      estoque: 20 ,
       link: 'https://wa.me/5598989190240?text=Quero o Plano Intermediário com apostila, vídeos e suporte educacional',
       linkKiwify: 'https://kiwify.com.br/plano-intermediario-apostila'
     },
@@ -55,7 +55,7 @@ let dadosSite = {
       precoOriginal: 'R$ 189,99',
       imagem: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=300&fit=crop',
       categoria: 'Educação Premium',
-      estoque: 15,
+      estoque: 15 ,
       link: 'https://wa.me/5598989190240?text=Quero o Plano Premium com reforço completo e suporte 24h',
       linkKiwify: 'https://kiwify.com.br/plano-premium-apostila'
     },
@@ -66,7 +66,7 @@ let dadosSite = {
       precoOriginal: 'R$ 99,99',
       imagem: 'https://images.unsplash.com/photo-1583511666445-775f1f2116f9?w=400&h=300&fit=crop',
       categoria: 'Colônia de Férias',
-      estoque: 20,
+      estoque: 20 ,
       link: 'https://wa.me/5598989190240?text=Quero mais informações sobre o Plano Básico da Colônia (6 a 8 anos)',
       linkKiwify: 'https://kiwify.com.br/colonia-basico'
     },
@@ -77,7 +77,7 @@ let dadosSite = {
       precoOriginal: 'R$ 139,99',
       imagem: 'https://images.unsplash.com/photo-1620602731732-e3e80c379ed4?w=400&h=300&fit=crop',
       categoria: 'Colônia de Férias',
-      estoque: 20,
+      estoque: 20 ,
       link: 'https://wa.me/5598989190240?text=Quero mais detalhes sobre o Plano Plus da Colônia (8 a 10 anos)',
       linkKiwify: 'https://kiwify.com.br/colonia-plus'
     },
@@ -88,7 +88,7 @@ let dadosSite = {
       precoOriginal: 'R$ 159,99',
       imagem: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=400&h=300&fit=crop',
       categoria: 'Colônia de Férias Premium',
-      estoque: 20,
+      estoque: 20 ,
       link: 'https://wa.me/5598989190240?text=Quero o Plano Premium da Colônia para meu filho (10 a 13 anos)',
       linkKiwify: 'https://kiwify.com.br/colonia-premium'
     },
@@ -99,7 +99,7 @@ let dadosSite = {
       precoOriginal: 'R$ 39,99',
       imagem: 'https://images.unsplash.com/photo-1596464716121-5b52dbf0f11b?w=400&h=300&fit=crop',
       categoria: 'Atividades Extras',
-      estoque: 30,
+      estoque: 30 ,
       link: 'https://wa.me/5598989190240?text=Olá! Tenho interesse nos Passeios Semanais da Colônia de Férias',
       linkKiwify: 'https://kiwify.com.br/passeios-colonia-ferias'
     }
