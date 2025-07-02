@@ -15,7 +15,7 @@ let dadosSite = {
   titulo: 'Criado para pais e crianças',
   slogan: 'Os melhores produtos ao seu alcance!',
   sobre: 'Somos uma loja digital que oferece produtos incríveis com preços acessíveis. Criado com ♥ usando IA, Replit e tecnologia web.',
-  email: 'crecheescolanovaalianca@gmail.com,
+  email: 'crecheescolanovaalianca@gmail.com',
   whatsapp: '98989190240',
   whatsappNome: '(98) 98919-0240',
   telegram: 'seuusuario',
