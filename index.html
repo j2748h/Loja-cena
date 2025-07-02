@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loja CENA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Botão Modificar (canto inferior esquerdo) -->
+  <button id="btn-modificar" class="btn-modificar">⚙️ Modificar</button>
+
+  <!-- Modal de Senha -->
+  <div id="modal-senha" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModalSenha()">&times;</span>
+      <h3>🔒 Acesso Restrito</h3>
+      <div class="grupo-controle">
+        <label>Digite a senha para acessar o painel de edição:</label>
+        <input type="password" id="input-senha" placeholder="Digite a senha">
+      </div>
+      <button id="verificar-senha" class="btn-salvar">Acessar</button>
+    </div>
+  </div>
+
+  <!-- Painel de Edição (oculto) -->
+  <div id="painel-edicao" class="painel-edicao" style="display: none;">
+    <h3>🎨 Painel de Edição Avançado</h3>
+    <button id="toggle-edicao" class="btn-toggle">Ativar Edição</button>
+
+    <div id="controles-edicao" class="controles-edicao" style="display: none;">
+      <!-- Abas do Painel -->
+      <div class="painel-abas">
+        <button class="aba-btn ativa" data-aba="geral">📝 Geral</button>
+        <button class="aba-btn" data-aba="produtos">📦 Produtos</button>
+        <button class="aba-btn" data-aba="avaliacoes">⭐ Avaliações</button>
+        <button class="aba-btn" data-aba="layout">🎨 Layout</button>
+        <button class="aba-btn" data-aba="links">🔗 Links</button>
+        <button class="aba-btn" data-aba="seo">🔍 SEO</button>
+        <button class="aba-btn" data-aba="analytics">📊 Analytics</button>
+        <button class="aba-btn" data-aba="email">📧 Email</button>
+        <button class="aba-btn" data-aba="marketing">🎯 Marketing</button>
+        <button class="aba-btn" data-aba="paginas">📄 Páginas</button>
+        <button class="aba-btn" data-aba="avancado">⚙️ Avançado</button>
+      </div>
+
+      <!-- Aba Geral -->
+      <div id="aba-geral" class="aba-conteudo ativa">
+        <div class="grupo-controle">
+          <label>Título do Site:</label>
+          <input type="text" id="edit-titulo" value="Loja CENA">
+        </div>
+        <div class="grupo-controle">
+          <label>Slogan:</label>
+          <input type="text" id="edit-slogan" value="Os melhores produtos ao seu alcance!">
+        </div>
+        <div class="grupo-controle">
+          <label>Texto Sobre:</label>
+          <textarea id="edit-sobre">Somos uma loja digital que oferece produtos incríveis com preços acessíveis. Criado com ♥ usando IA, Replit e tecnologia web.</textarea>
+        </div>
+        <div class="grupo-controle">
+          <label>Email de Contato:</label>
+          <input type="email" id="edit-email" value="exemplo@email.com">
+        </div>
+        <div class="grupo-controle">
+          <label>WhatsApp (só números):</label>
+          <input type="text" id="edit-whatsapp" value="00000000000">
+        </div>
+        <div class="grupo-controle">
+          <label>Nome do WhatsApp:</label>
+          <input type="text" id="edit-whatsapp-nome" value="(00) 00000-0000">
+        </div>
+        <div class="grupo-controle">
+          <label>Usuário do Telegram:</label>
+          <input type="text" id="edit-telegram" value="seuusuario" placeholder="@seuusuario">
+        </div>
+      </div>
+
+      <!-- Aba Produtos -->
+      <div id="aba-produtos" class="aba-conteudo">
+        <h4>📦 Configuração de Produtos</h4>
+        <div class="grupo-controle">
+          <label>Título da Seção Produtos:</label>
+          <input type="text" id="edit-titulo-produtos" value="Nossos Produtos">
+        </div>
+        <div class="grupo-controle">
+          <label>Descrição da Seção:</label>
+          <textarea id="edit-desc-produtos" placeholder="Produtos selecionados especialmente para você!"></textarea>
+        </div>
+        <div class="grupo-controle">
+          <label>Imagem de Fundo da Seção:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="edit-bg-produtos" placeholder="https://exemplo.com/bg-produtos.jpg">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-bg-produtos', 'preview-bg-produtos')">
+                📁 Escolher da Galeria
+              </button>
+            <div id="preview-bg-produtos" class="preview-container"></div>
+          </div>
+        </div>
+
+        <h4>🎨 Layout dos Produtos</h4>
+        <div class="grupo-controle">
+          <label>Número de Colunas (Desktop):</label>
+          <select id="edit-colunas-produtos">
+            <option value="1">1 Coluna</option>
+            <option value="2">2 Colunas</option>
+            <option value="3" selected>3 Colunas</option>
+            <option value="4">4 Colunas</option>
+            <option value="5">5 Colunas</option>
+            <option value="6">6 Colunas</option>
+            <option value="7">7 Colunas</option>
+            <option value="8">8 Colunas</option>
+            <option value="9">9 Colunas</option>
+            <option value="10">10 Colunas</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Estilo dos Cards:</label>
+          <select id="edit-estilo-cards">
+            <option value="classic" selected>Clássico</option>
+            <option value="modern">Moderno</option>
+            <option value="minimal">Minimalista</option>
+            <option value="luxury">Luxo</option>
+            <option value="playful">Divertido</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Hover Effect:</label>
+          <select id="edit-hover-effect">
+            <option value="lift" selected>Elevar</option>
+            <option value="scale">Ampliar</option>
+            <option value="rotate">Rotacionar</option>
+            <option value="none">Nenhum</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Mostrar Badges de Desconto:</label>
+          <select id="edit-badges-desconto">
+            <option value="true" selected>Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+
+        <h4>🔍 Filtros e Busca</h4>
+        <div class="grupo-controle">
+          <label>Barra de Busca:</label>
+          <select id="edit-busca-ativa">
+            <option value="true" selected>Habilitada</option>
+            <option value="false">Desabilitada</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Filtro por Categoria:</label>
+          <select id="edit-filtro-categoria">
+            <option value="true" selected>Habilitado</option>
+            <option value="false">Desabilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Filtro por Preço:</label>
+          <select id="edit-filtro-preco">
+            <option value="true" selected>Habilitado</option>
+            <option value="false">Desabilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Ordenação de Produtos:</label>
+          <select id="edit-ordenacao">
+            <option value="true" selected>Habilitada</option>
+            <option value="false">Desabilitada</option>
+          </select>
+        </div>
+
+        <h4>⭐ Avaliações e Social Proof</h4>
+        <div class="grupo-controle">
+          <label>Mostrar Avaliações nos Cards:</label>
+          <select id="edit-avaliacoes-cards">
+            <option value="true" selected>Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Mostrar "Mais Vendido":</label>
+          <select id="edit-mais-vendido">
+            <option value="true" selected>Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Contador de Vendas:</label>
+          <select id="edit-contador-vendas">
+            <option value="false" selected>Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+
+        <h4>📱 Responsividade</h4>
+        <div class="grupo-controle">
+          <label>Colunas no Tablet:</label>
+          <select id="edit-colunas-tablet">
+            <option value="1">1 Coluna</option>
+            <option value="2" selected>2 Colunas</option>
+            <option value="3">3 Colunas</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Colunas no Mobile:</label>
+          <select id="edit-colunas-mobile">
+            <option value="1" selected>1 Coluna</option>
+            <option value="2">2 Colunas</option>
+          </select>
+        </div>
+
+        <button id="adicionar-produto" class="btn-adicionar">+ Adicionar Produto</button>
+        <button id="importar-produtos" class="btn-adicionar" style="background: #17a2b8;">📥 Importar Produtos (CSV)</button>
+        <button id="exportar-produtos" class="btn-adicionar" style="background: #28a745;" onclick="exportarProdutosCSV()">📤 Exportar Produtos (CSV)</button>
+        <input type="file" id="file-importar-produtos" accept=".csv" style="display: none;">
+        
+        <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; font-size: 12px;">
+          <strong>📋 Formato CSV esperado:</strong><br>
+          <code>nome,descricao,preco,imagem,link,categoria,estoque,precoOriginal,linkKiwify</code><br>
+          <small>💡 Você pode exportar seus produtos atuais como modelo</small>
+        </div>
+      </div>
+
+       <!-- Aba Avaliações -->
+       <div id="aba-avaliacoes" class="aba-conteudo">
+          <h4>⭐ Configuração de Avaliações</h4>
+          <div class="grupo-controle">
+            <label>Título da Seção Avaliações:</label>
+            <input type="text" id="edit-titulo-avaliacoes" value="O Que Nossos Clientes Dizem">
+          </div>
+          <div class="grupo-controle">
+            <label>Subtítulo da Seção:</label>
+            <input type="text" id="edit-subtitulo-avaliacoes" placeholder="Depoimentos reais de clientes satisfeitos">
+          </div>
+          <div class="grupo-controle">
+            <label>Imagem de Fundo da Seção:</label>
+            <div class="upload-opcoes">
+              <input type="url" id="edit-bg-avaliacoes" placeholder="https://exemplo.com/bg-avaliacoes.jpg">
+              <div class="upload-ou">OU</div>
+              <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-bg-avaliacoes', 'preview-bg-avaliacoes')">
+                📁 Escolher da Galeria
+              </button>
+              <div id="preview-bg-avaliacoes" class="preview-container"></div>
+            </div>
+          </div>
+
+          <h4>🎨 Layout das Avaliações</h4>
+          <div class="grupo-controle">
+            <label>Número de Colunas:</label>
+            <select id="edit-colunas-avaliacoes">
+              <option value="1">1 Coluna</option>
+              <option value="2">2 Colunas</option>
+              <option value="3" selected>3 Colunas</option>
+              <option value="4">4 Colunas</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Estilo dos Cards:</label>
+            <select id="edit-estilo-avaliacoes">
+              <option value="classic" selected>Clássico</option>
+              <option value="modern">Moderno</option>
+              <option value="testimonial">Depoimento</option>
+              <option value="quote">Citação</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Animação de Entrada:</label>
+            <select id="edit-animacao-avaliacoes">
+              <option value="none">Nenhuma</option>
+              <option value="fadeIn" selected>Fade In</option>
+              <option value="slideUp">Slide Up</option>
+              <option value="scaleIn">Scale In</option>
+            </select>
+          </div>
+
+          <h4>📝 Sistema de Avaliações</h4>
+          <div class="grupo-controle">
+            <label>Avaliações Públicas:</label>
+            <select id="edit-avaliacoes-publicas">
+              <option value="true" selected>Habilitadas</option>
+              <option value="false">Desabilitadas</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Moderação de Avaliações:</label>
+            <select id="edit-moderacao-avaliacoes">
+              <option value="true" selected>Habilitada</option>
+              <option value="false">Automática</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Formulário de Avaliação:</label>
+            <select id="edit-form-avaliacao">
+              <option value="false">Desabilitado</option>
+              <option value="true" selected>Habilitado</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Widget de Nota Média:</label>
+            <select id="edit-widget-nota">
+              <option value="false">Desabilitado</option>
+              <option value="true" selected>Habilitado</option>
+            </select>
+          </div>
+
+          <h4>🎯 Captura de Avaliações</h4>
+          <div class="grupo-controle">
+            <label>Popup após Compra:</label>
+            <select id="edit-popup-avaliacao">
+              <option value="false" selected>Desabilitado</option>
+              <option value="true">Habilitado</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Incentivo por Email:</label>
+            <select id="edit-email-avaliacao">
+              <option value="false" selected>Desabilitado</option>
+              <option value="true">Habilitado</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Desconto por Avaliação:</label>
+            <select id="edit-desconto-avaliacao">
+              <option value="false" selected>Desabilitado</option>
+              <option value="true">Habilitado</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Valor do Desconto (%):</label>
+            <input type="number" id="edit-valor-desconto-avaliacao" value="5" min="0" max="50">
+          </div>
+
+          <h4>📊 Estatísticas</h4>
+          <div class="grupo-controle">
+            <label>Mostrar Total de Avaliações:</label>
+            <select id="edit-total-avaliacoes">
+              <option value="true" selected>Sim</option>
+              <option value="false">Não</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Mostrar Nota Média:</label>
+            <select id="edit-nota-media">
+              <option value="true" selected>Sim</option>
+              <option value="false">Não</option>
+            </select>
+          </div>
+          <div class="grupo-controle">
+            <label>Gráfico de Distribuição:</label>
+            <select id="edit-grafico-distribuicao">
+              <option value="false" selected>Desabilitado</option>
+              <option value="true">Habilitado</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <button id="adicionar-avaliacao" class="btn-adicionar">+ Adicionar Avaliação</button>
+            <button id="importar-avaliacoes" class="btn-adicionar" style="background: #17a2b8;">📥 Importar Avaliações (CSV)</button>
+            <input type="file" id="file-importar-avaliacoes" accept=".csv" style="display: none;">
+          </div>
+
+          <div id="lista-avaliacoes">
+            <!-- Avaliações existentes serão inseridas aqui -->
+          </div>
+        </div>
+
+      <!-- Aba Layout -->
+      <div id="aba-layout" class="aba-conteudo">
+        <h4>🎨 Cores do Site</h4>
+        <div class="grupo-controle">
+          <label>Cor Principal:</label>
+          <input type="color" id="edit-cor-principal" value="#007bff">
+        </div>
+        <div class="grupo-controle">
+          <label>Cor Secundária:</label>
+          <input type="color" id="edit-cor-secundaria" value="#00d4ff">
+        </div>
+        <div class="grupo-controle">
+          <label>Cor do Texto:</label>
+          <input type="color" id="edit-cor-texto" value="#333333">
+        </div>
+        <div class="grupo-controle">
+          <label>Cor de Fundo:</label>
+          <input type="color" id="edit-cor-fundo" value="#f8f9fa">
+        </div>
+        <div class="grupo-controle">
+          <label>Cor do Header:</label>
+          <input type="color" id="edit-cor-header" value="#222222">
+        </div>
+        <div class="grupo-controle">
+          <label>Cor do Footer:</label>
+          <input type="color" id="edit-cor-footer" value="#222222">
+        </div>
+
+        <h4>📝 Tipografia</h4>
+        <div class="grupo-controle">
+          <label>Fonte Principal:</label>
+          <select id="edit-fonte">
+            <option value="'Montserrat', sans-serif">Montserrat</option>
+            <option value="'Arial', sans-serif">Arial</option>
+            <option value="'Roboto', sans-serif">Roboto</option>
+            <option value="'Open Sans', sans-serif">Open Sans</option>
+            <option value="'Lato', sans-serif">Lato</option>
+            <option value="'Poppins', sans-serif">Poppins</option>
+            <option value="'Inter', sans-serif">Inter</option>
+            <option value="'Source Sans Pro', sans-serif">Source Sans Pro</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Tamanho da Fonte Base:</label>
+          <select id="edit-tamanho-fonte">
+            <option value="14px">Pequena (14px)</option>
+            <option value="16px" selected>Normal (16px)</option>
+            <option value="18px">Grande (18px)</option>
+            <option value="20px">Muito Grande (20px)</option>
+          </select>
+        </div>
+
+        <h4>🖼️ Branding e Identidade Visual</h4>
+        <div class="grupo-controle">
+          <label>Logo do Site:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="edit-logo" placeholder="https://exemplo.com/logo.png">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-logo', 'preview-logo')">
+              📁 Escolher Logo da Galeria
+            </button>
+            <div class="upload-info">
+              <small>📐 <strong>Recomendado:</strong> 200x80px ou proporção 5:2</small>
+              <small>📂 <strong>Formatos:</strong> PNG com fundo transparente preferível</small>
+            </div>
+            <div id="preview-logo" class="preview-container"></div>
+          </div>
+        </div>
+        <div class="grupo-controle">
+          <label>Tamanho do Logo:</label>
+          <select id="edit-tamanho-logo">
+            <option value="40px">Pequeno (40px)</option>
+            <option value="50px" selected>Médio (50px)</option>
+            <option value="60px">Grande (60px)</option>
+            <option value="80px">Muito Grande (80px)</option>
+            <option value="100px">Extra Grande (100px)</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Posição do Logo:</label>
+          <select id="edit-posicao-logo">
+            <option value="left">Esquerda</option>
+            <option value="center" selected>Centro</option>
+            <option value="right">Direita</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Favicon do Site:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="edit-favicon-url" placeholder="https://exemplo.com/favicon.ico">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-favicon-url', 'preview-favicon')">
+              📁 Escolher Favicon da Galeria
+            </button>
+            <div class="upload-info">
+              <small>📐 <strong>Tamanho ideal:</strong> 32x32px ou 64x64px</small>
+              <small>📂 <strong>Formato:</strong> ICO, PNG ou SVG</small>
+            </div>
+            <div id="preview-favicon" class="preview-container"></div>
+          </div>
+        </div>
+
+        <h4>🖼️ Banners e Fundos</h4>
+        <div class="grupo-controle">
+          <label>Imagem de Fundo do Banner Principal:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="edit-bg-banner" placeholder="https://exemplo.com/banner.jpg">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-bg-banner', 'preview-banner')">
+              📁 Escolher da Galeria
+            </button>
+            <div class="upload-info">
+              <small>📐 <strong>Recomendado:</strong> 1920x600px ou maior</small>
+              <small>📂 <strong>Formato:</strong> JPG ou WebP para melhor performance</small>
+            </div>
+            <div id="preview-banner" class="preview-container"></div>
+          </div>
+        </div>
+        <div class="grupo-controle">
+          <label>Opacidade do Overlay do Banner:</label>
+          <input type="range" id="edit-banner-overlay" min="0" max="100" value="50">
+          <small>Controla a transparência da camada escura sobre a imagem</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Imagem de Fundo Geral do Site:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="edit-bg-site" placeholder="https://exemplo.com/fundo.jpg">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-bg-site', 'preview-bg-site')">
+              📁 Escolher Fundo da Galeria
+            </button>
+            <div id="preview-bg-site" class="preview-container"></div>
+          </div>
+        </div>
+        <div class="grupo-controle">
+          <label>Estilo do Fundo:</label>
+          <select id="edit-bg-estilo">
+            <option value="cover">Cobrir Tela (cover)</option>
+            <option value="contain">Ajustar na Tela (contain)</option>
+            <option value="repeat">Repetir (repeat)</option>
+            <option value="no-repeat" selected>Não Repetir (no-repeat)</option>
+            <option value="fixed">Fixo (parallax)</option>
+          </select>
+        </div>
+
+        <h4>📐 Layout e Espaçamento</h4>
+        <div class="grupo-controle">
+          <label>Largura Máxima do Conteúdo:</label>
+          <select id="edit-largura-maxima">
+            <option value="1000px">Estreita (1000px)</option>
+            <option value="1200px" selected>Normal (1200px)</option>
+            <option value="1400px">Larga (1400px)</option>
+            <option value="100%">Tela Cheia (100%)</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Espaçamento entre Seções:</label>
+          <select id="edit-espacamento-secoes">
+            <option value="40px">Compacto (40px)</option>
+            <option value="60px" selected>Normal (60px)</option>
+            <option value="80px">Espaçoso (80px)</option>
+            <option value="100px">Muito Espaçoso (100px)</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Estilo dos Botões:</label>
+          <select id="edit-estilo-botoes">
+            <option value="rounded">Arredondados</option>
+            <option value="square">Quadrados</option>
+            <option value="pill" selected>Pílula</option>
+          </select>
+        </div>
+
+        <h4>✨ Efeitos Visuais</h4>
+        <div class="grupo-controle">
+          <label>Sombras nos Cards:</label>
+          <select id="edit-sombras">
+            <option value="none">Sem Sombra</option>
+            <option value="light">Sombra Leve</option>
+            <option value="normal" selected>Sombra Normal</option>
+            <option value="strong">Sombra Forte</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Animações:</label>
+          <select id="edit-animacoes">
+            <option value="none">Desabilitadas</option>
+            <option value="subtle">Sutis</option>
+            <option value="normal" selected>Normais</option>
+            <option value="enhanced">Aprimoradas</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Transparência do Header:</label>
+          <input type="range" id="edit-transparencia-header" min="0" max="100" value="0">
+          <small>0% = Opaco, 100% = Transparente</small>
+        </div>
+      </div>
+
+      <!-- Aba Links -->
+      <div id="aba-links" class="aba-conteudo">
+        <div class="grupo-controle">
+          <label>Facebook:</label>
+          <input type="url" id="edit-facebook" placeholder="https://facebook.com/seuusuario">
+        </div>
+        <div class="grupo-controle">
+          <label>Instagram:</label>
+          <input type="url" id="edit-instagram" placeholder="https://instagram.com/seuusuario">
+        </div>
+        <div class="grupo-controle">
+          <label>YouTube:</label>
+          <input type="url" id="edit-youtube" placeholder="https://youtube.com/seuchannel">
+        </div>
+        <div class="grupo-controle">
+          <label>TikTok:</label>
+          <input type="url" id="edit-tiktok" placeholder="https://tiktok.com/@seuusuario">
+        </div>
+        <div class="grupo-controle">
+          <label>LinkedIn:</label>
+          <input type="url" id="edit-linkedin" placeholder="https://linkedin.com/in/seuusuario">
+        </div>
+        <div class="grupo-controle">
+          <label>Site/Blog Personalizado:</label>
+          <input type="url" id="edit-site-custom" placeholder="https://seusite.com">
+        </div>
+        <div class="grupo-controle">
+          <label>Nome do Site/Blog:</label>
+          <input type="text" id="edit-nome-site-custom" placeholder="Meu Site">
+        </div>
+      </div>
+
+      <!-- Aba SEO -->
+      <div id="aba-seo" class="aba-conteudo">
+        <h4>🔍 SEO Básico</h4>
+        <div class="grupo-controle">
+          <label>Título da Página (Meta Title):</label>
+          <input type="text" id="edit-meta-title" placeholder="Loja CENA - Os melhores produtos com preços incríveis" maxlength="60">
+          <small>Máximo 60 caracteres. Aparece na aba do navegador e no Google</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Meta Descrição:</label>
+          <textarea id="edit-meta-desc" placeholder="Descrição que aparece nos resultados de busca" maxlength="160"></textarea>
+          <small>Máximo 160 caracteres. Aparece no Google abaixo do título</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Palavras-chave:</label>
+          <input type="text" id="edit-keywords" placeholder="loja online, produtos qualidade, preços baixos, entrega rápida">
+          <small>Separe por vírgulas. Ex: loja, produtos, vendas</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Autor/Empresa:</label>
+          <input type="text" id="edit-author" placeholder="Loja CENA">
+        </div>
+
+        <h4>🌐 Open Graph (Redes Sociais)</h4>
+        <div class="grupo-controle">
+          <label>Imagem para Compartilhamento:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="edit-og-image" placeholder="https://exemplo.com/share-image.jpg">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-og-image', 'preview-og-image')">
+              📁 Escolher da Galeria
+            </button>
+            <div class="upload-info">
+              <small>📐 <strong>Tamanho ideal:</strong> 1200x630px</small>
+              <small>📱 Aparece quando alguém compartilha seu site no WhatsApp, Facebook, etc.</small>
+            </div>
+            <div id="preview-og-image" class="preview-container"></div>
+          </div>
+        </div>
+        <div class="grupo-controle">
+          <label>Título para Compartilhamento:</label>
+          <input type="text" id="edit-og-title" placeholder="Loja CENA - Os melhores produtos">
+          <small>Pode ser diferente do título da página</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Descrição para Compartilhamento:</label>
+          <textarea id="edit-og-desc" placeholder="Produtos incríveis com preços acessíveis. Entrega rápida!"></textarea>
+        </div>
+        <div class="grupo-controle">
+          <label>Tipo de Site:</label>
+          <select id="edit-og-type">
+            <option value="website">Site/Loja</option>
+            <option value="article">Artigo/Blog</option>
+            <option value="product">Produto</option>
+            <option value="business.business">Negócio</option>
+          </select>
+        </div>
+
+        <h4>📍 SEO Local</h4>
+        <div class="grupo-controle">
+          <label>Nome da Empresa:</label>
+          <input type="text" id="edit-business-name" placeholder="Loja CENA">
+        </div>
+        <div class="grupo-controle">
+          <label>Endereço da Empresa:</label>
+          <input type="text" id="edit-business-address" placeholder="Rua Exemplo, 123, Cidade - Estado">
+        </div>
+        <div class="grupo-controle">
+          <label>Telefone da Empresa:</label>
+          <input type="tel" id="edit-business-phone" placeholder="(11) 99999-9999">
+        </div>
+        <div class="grupo-controle">
+          <label>Tipo de Negócio:</label>
+          <select id="edit-business-type">
+            <option value="Store">Loja</option>
+            <option value="OnlineStore">Loja Online</option>
+            <option value="LocalBusiness">Negócio Local</option>
+            <option value="Organization">Organização</option>
+          </select>
+        </div>
+
+        <h4>⚡ Performance e Indexação</h4>
+        <div class="grupo-controle">
+          <label>Sitemap URL:</label>
+          <input type="url" id="edit-sitemap" placeholder="https://seusite.com/sitemap.xml">
+          <small>Ajuda o Google a encontrar suas páginas</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Robots.txt:</label>
+          <textarea id="edit-robots" placeholder="User-agent: *&#10;Allow: /" rows="4"></textarea>
+          <small>Instruções para robôs de busca</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Idioma Principal:</label>
+          <select id="edit-lang">
+            <option value="pt-BR" selected>Português (Brasil)</option>
+            <option value="en-US">Inglês (EUA)</option>
+            <option value="es-ES">Espanhol</option>
+            <option value="fr-FR">Francês</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Canonical URL:</label>
+          <input type="url" id="edit-canonical" placeholder="https://seusite.com">
+          <small>URL principal do seu site (evita conteúdo duplicado)</small>
+        </div>
+      </div>
+
+      <!-- Aba Analytics -->
+      <div id="aba-analytics" class="aba-conteudo">
+        <h4>📊 Análise de Tráfego</h4>
+        <div class="grupo-controle">
+          <label>Google Analytics 4 ID:</label>
+          <input type="text" id="edit-ga4-id" placeholder="G-XXXXXXXXXX">
+          <small>Exemplo: G-1234567890</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Google Tag Manager ID:</label>
+          <input type="text" id="edit-gtm-id" placeholder="GTM-XXXXXXX">
+          <small>Centralize todos os códigos de rastreamento</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Google Search Console:</label>
+          <input type="text" id="edit-search-console" placeholder="google-site-verification=xxxxx">
+          <small>Código de verificação do Search Console</small>
+        </div>
+
+        <h4>📱 Redes Sociais e Conversão</h4>
+        <div class="grupo-controle">
+          <label>Facebook Pixel ID:</label>
+          <input type="text" id="edit-facebook-pixel" placeholder="123456789012345">
+          <small>Para rastrear conversões do Facebook Ads</small>
+        </div>
+        <div class="grupo-controle">
+          <label>TikTok Pixel ID:</label>
+          <input type="text" id="edit-tiktok-pixel" placeholder="xxxxxxxxxxxxxxxxxx">
+          <small>Para campanhas no TikTok Ads</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Google Ads Conversion ID:</label>
+          <input type="text" id="edit-google-ads" placeholder="AW-XXXXXXXXXX">
+          <small>Para rastrear conversões do Google Ads</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Pinterest Tag ID:</label>
+          <input type="text" id="edit-pinterest-tag" placeholder="xxxxxxxxxxxxxxx">
+        </div>
+
+        <h4>🔥 Mapas de Calor e Comportamento</h4>
+        <div class="grupo-controle">
+          <label>Hotjar ID:</label>
+          <input type="text" id="edit-hotjar-id" placeholder="1234567">
+          <small>Para mapas de calor e gravações de sessão</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Microsoft Clarity ID:</label>
+          <input type="text" id="edit-clarity-id" placeholder="xxxxxxxxxx">
+          <small>Análise gratuita de comportamento</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Yandex Metrica ID:</label>
+          <input type="text" id="edit-yandex-id" placeholder="12345678">
+          <small>Analytics detalhado com mapas de calor</small>
+        </div>
+
+        <h4>💬 Chat e Suporte</h4>
+        <div class="grupo-controle">
+          <label>Zendesk Chat Key:</label>
+          <input type="text" id="edit-zendesk-chat" placeholder="xxxxxxxx-xxxx-xxxx-xxxx">
+        </div>
+        <div class="grupo-controle">
+          <label>Crisp Website ID:</label>
+          <input type="text" id="edit-crisp-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx">
+          <small>Chat ao vivo gratuito</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Tawk.to Widget ID:</label>
+          <input type="text" id="edit-tawk-id" placeholder="xxxxxxxxxxxxxxxxxx">
+        </div>
+
+        <h4>⚡ Performance e Monitoramento</h4>
+        <div class="grupo-controle">
+          <label>New Relic License Key:</label>
+          <input type="text" id="edit-newrelic-key" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+          <small>Monitoramento de performance</small>
+        </div>
+        <div class="grupo-controle">
+          <label>LogRocket App ID:</label>
+          <input type="text" id="edit-logrocket-id" placeholder="xxxxxx/xxxxx">
+          <small>Gravação de sessões e logs</small>
+        </div>
+      </div>
+
+      <!-- Aba Email -->
+      <div id="aba-email" class="aba-conteudo">
+        <h4>📧 Sistema de Email</h4>
+        <div class="grupo-controle">
+          <label>Email Principal da Loja:</label>
+          <input type="email" id="edit-email-principal" placeholder="contato@minhaloja.com">
+          <small>Email que aparece no site e recebe mensagens</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Email para Vendas:</label>
+          <input type="email" id="edit-email-vendas" placeholder="vendas@minhaloja.com">
+        </div>
+        <div class="grupo-controle">
+          <label>Email para Suporte:</label>
+          <input type="email" id="edit-email-suporte" placeholder="suporte@minhaloja.com">
+        </div>
+
+        <h4>📝 Formulários</h4>
+        <div class="grupo-controle">
+          <label>Formulário de Contato:</label>
+          <select id="edit-form-ativo">
+            <option value="false">Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Formulário de Newsletter:</label>
+          <select id="edit-newsletter-ativo">
+            <option value="false">Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Formulário de Orçamento:</label>
+          <select id="edit-orcamento-ativo">
+            <option value="false">Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+
+        <h4>🚀 Automação de Email</h4>
+        <div class="grupo-controle">
+          <label>EmailJS Service ID:</label>
+          <input type="text" id="edit-emailjs-service" placeholder="service_xxxxxxx">
+          <small>Para envio automático via JavaScript</small>
+        </div>
+        <div class="grupo-controle">
+          <label>EmailJS Template ID:</label>
+          <input type="text" id="edit-emailjs-template" placeholder="template_xxxxxxx">
+        </div>
+        <div class="grupo-controle">
+          <label>EmailJS Public Key:</label>
+          <input type="text" id="edit-emailjs-key" placeholder="xxxxxxxxxxxxxxx">
+        </div>
+        <div class="grupo-controle">
+          <label>Mailchimp API Key:</label>
+          <input type="text" id="edit-mailchimp-key" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-us1">
+          <small>Para automação de newsletters</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Mailchimp List ID:</label>
+          <input type="text" id="edit-mailchimp-list" placeholder="xxxxxxxxxx">
+        </div>
+
+        <h4>📮 Configurações de Email</h4>
+        <div class="grupo-controle">
+          <label>Assinatura de Email:</label>
+          <textarea id="edit-assinatura-email" placeholder="Atenciosamente,&#10;Equipe Loja CENA&#10;WhatsApp: (xx) xxxxx-xxxx"></textarea>
+        </div>
+        <div class="grupo-controle">
+          <label>Mensagem de Confirmação:</label>
+          <textarea id="edit-msg-confirmacao" placeholder="Obrigado pelo seu contato! Responderemos em breve."></textarea>
+        </div>
+        <div class="grupo-controle">
+          <label>Resposta Automática:</label>
+          <select id="edit-resposta-auto">
+            <option value="false">Desabilitada</option>
+            <option value="true">Habilitada</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Notificação no WhatsApp:</label>
+          <select id="edit-notif-whatsapp">
+            <option value="false">Desabilitada</option>
+            <option value="true" selected>Habilitada</option>
+          </select>
+          <small>Enviar notificação no WhatsApp quando receber email</small>
+        </div>
+      </div>
+
+      <!-- Aba Marketing -->
+      <div id="aba-marketing" class="aba-conteudo">
+        <h4>📢 Banners Promocionais</h4>
+        <div class="grupo-controle">
+          <label>Banner Promocional Superior:</label>
+          <select id="edit-banner-promo-ativo">
+            <option value="false">Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Texto do Banner:</label>
+          <input type="text" id="edit-banner-promo" placeholder="🎉 PROMOÇÃO: 50% OFF em todos os produtos!">
+        </div>
+        <div class="grupo-controle">
+          <label>Cor do Banner:</label>
+          <input type="color" id="edit-banner-cor" value="#ff6b6b">
+        </div>
+        <div class="grupo-controle">
+          <label>Link do Banner:</label>
+          <input type="url" id="edit-banner-link" placeholder="https://exemplo.com/promocao">
+        </div>
+        <div class="grupo-controle">
+          <label>Imagem do Banner Promocional:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="edit-banner-promo-img" placeholder="https://exemplo.com/promo.jpg">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-banner-promo-img', 'preview-banner-promo')">
+              📁 Escolher da Galeria
+            </button>
+            <div id="preview-banner-promo" class="preview-container"></div>
+          </div>
+        </div>
+
+        <h4>🎯 Popup de Captura</h4>
+        <div class="grupo-controle">
+          <label>Popup de Newsletter:</label>
+          <select id="edit-popup-newsletter">
+            <option value="false">Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Título do Popup:</label>
+          <input type="text" id="edit-popup-titulo" placeholder="📧 Receba nossas ofertas!">
+        </div>
+        <div class="grupo-controle">
+          <label>Texto do Popup:</label>
+          <textarea id="edit-popup-texto" placeholder="Cadastre-se e receba descontos exclusivos"></textarea>
+        </div>
+        <div class="grupo-controle">
+          <label>Imagem do Popup:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="edit-popup-imagem" placeholder="https://exemplo.com/popup.jpg">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-popup-imagem', 'preview-popup')">
+              📁 Escolher da Galeria
+            </button>
+            <div id="preview-popup" class="preview-container"></div>
+          </div>
+        </div>
+        <div class="grupo-controle">
+          <label>Tempo para Mostrar Popup (segundos):</label>
+          <input type="number" id="edit-popup-tempo" value="5" min="0" max="60">
+        </div>
+
+        <h4>🎁 Sistema de Cupons</h4>
+        <div class="grupo-controle">
+          <label>Cupom de Desconto Ativo:</label>
+          <select id="edit-cupom-ativo">
+            <option value="false">Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Código do Cupom:</label>
+          <input type="text" id="edit-cupom-codigo" placeholder="DESCONTO10">
+        </div>
+        <div class="grupo-controle">
+          <label>Valor do Desconto (%):</label>
+          <input type="number" id="edit-cupom-valor" placeholder="10" min="0" max="100">
+        </div>
+        <div class="grupo-controle">
+          <label>Descrição do Desconto:</label>
+          <input type="text" id="edit-cupom-desc" placeholder="10% de desconto na primeira compra">
+        </div>
+
+        <h4>🚀 Call-to-Actions</h4>
+        <div class="grupo-controle">
+          <label>Botão CTA Flutuante:</label>
+          <select id="edit-cta-flutuante">
+            <option value="false">Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Texto do CTA:</label>
+          <input type="text" id="edit-cta-texto" placeholder="🛒 Compre Agora!">
+        </div>
+        <div class="grupo-controle">
+          <label>Link do CTA:</label>
+          <input type="url" id="edit-cta-link" placeholder="https://wa.me/5598989190240">
+        </div>
+        <div class="grupo-controle">
+          <label>Cor do CTA:</label>
+          <input type="color" id="edit-cta-cor" value="#ff6b6b">
+        </div>
+
+        <h4>📊 Urgência e Escassez</h4>
+        <div class="grupo-controle">
+          <label>Contador de Visitantes:</label>
+          <select id="edit-contador-visitantes">
+            <option value="false">Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Mensagem de Urgência:</label>
+          <input type="text" id="edit-mensagem-urgencia" placeholder="⏰ Apenas hoje! Não perca essa oportunidade!">
+        </div>
+        <div class="grupo-controle">
+          <label>Timer de Oferta:</label>
+          <select id="edit-timer-oferta">
+            <option value="false">Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Horas para Expirar Oferta:</label>
+          <input type="number" id="edit-timer-horas" value="24" min="1" max="168">
+        </div>
+      </div>
+
+      <!-- Aba Páginas -->
+      <div id="aba-paginas" class="aba-conteudo">
+        <div class="grupo-controle">
+          <label>Gerenciamento de Páginas Personalizadas:</label>
+          <button id="adicionar-pagina" class="btn-adicionar">+ Nova Página</button>
+        </div>
+        <div id="lista-paginas">
+          <!-- Páginas personalizadas serão listadas aqui -->
+        </div>
+      </div>
+
+      <!-- Aba Avançado -->
+      <div id="aba-avancado" class="aba-conteudo">
+        <h4>💻 Código Personalizado</h4>
+        <div class="grupo-controle">
+          <label>CSS Personalizado:</label>
+          <textarea id="edit-css-custom" placeholder="/* Adicione seu CSS personalizado aqui */" rows="8"></textarea>
+          <small>⚠️ Use com cuidado! CSS incorreto pode quebrar o layout</small>
+        </div>
+        <div class="grupo-controle">
+          <label>JavaScript Personalizado:</label>
+          <textarea id="edit-js-custom" placeholder="// Adicione seu JavaScript aqui" rows="8"></textarea>
+          <small>Para funcionalidades avançadas</small>
+        </div>
+        <div class="grupo-controle">
+          <label>HTML Head Personalizado:</label>
+          <textarea id="edit-head-custom" placeholder="<!-- Tags extras para o head -->" rows="4"></textarea>
+          <small>Meta tags, scripts externos, fontes, etc.</small>
+        </div>
+        <div class="grupo-controle">
+          <label>HTML Body (Final):</label>
+          <textarea id="edit-body-custom" placeholder="<!-- Scripts que devem ir no final do body -->" rows="4"></textarea>
+          <small>Scripts que devem carregar por último</small>
+        </div>
+
+        <h4>🔒 Segurança e Acesso</h4>
+        <div class="grupo-controle">
+          <label>Senha de Administração:</label>
+          <input type="password" id="edit-senha-admin" placeholder="Digite nova senha">
+          <small>Deixe em branco para manter: erick2506</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Código de Acesso Secreto:</label>
+          <input type="text" id="edit-codigo-secreto" placeholder="cena123456789">
+          <small>Código para mostrar o botão de administração</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Proteção por Senha:</label>
+          <select id="edit-protecao-senha">
+            <option value="false">Desabilitada</option>
+            <option value="true">Habilitada</option>
+          </select>
+          <small>Proteger todo o site com senha</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Senha do Site:</label>
+          <input type="password" id="edit-senha-site" placeholder="Digite a senha do site">
+          <small>Visitantes precisarão desta senha para acessar</small>
+        </div>
+
+        <h4>🔧 Manutenção</h4>
+        <div class="grupo-controle">
+          <label>Modo Manutenção:</label>
+          <select id="edit-manutencao">
+            <option value="false">Site Normal</option>
+            <option value="true">Modo Manutenção</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Mensagem de Manutenção:</label>
+          <textarea id="edit-msg-manutencao" placeholder="🔧 Site em manutenção. Voltamos em breve!"></textarea>
+        </div>
+        <div class="grupo-controle">
+          <label>Imagem de Manutenção:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="edit-img-manutencao" placeholder="https://exemplo.com/manutencao.jpg">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('edit-img-manutencao', 'preview-manutencao')">
+              📁 Escolher da Galeria
+            </button>
+            <div id="preview-manutencao" class="preview-container"></div>
+          </div>
+        </div>
+        <div class="grupo-controle">
+          <label>Data de Retorno:</label>
+          <input type="datetime-local" id="edit-data-retorno">
+          <small>Data estimada para o site voltar</small>
+        </div>
+
+        <h4>💾 Backup e Recuperação</h4>
+        <div class="grupo-controle">
+          <label>Backup Automático:</label>
+          <select id="edit-backup-auto">
+            <option value="false">Desabilitado</option>
+            <option value="true" selected>Habilitado</option>
+          </select>
+          <small>Salva configurações automaticamente</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Frequência de Backup:</label>
+          <select id="edit-backup-freq">
+            <option value="1">A cada alteração</option>
+            <option value="60" selected>A cada hora</option>
+            <option value="1440">Diariamente</option>
+            <option value="10080">Semanalmente</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Backup na Nuvem:</label>
+          <select id="edit-backup-nuvem">
+            <option value="false">Local apenas</option>
+            <option value="true">Google Drive</option>
+          </select>
+        </div>
+
+        <h4>⚡ Performance</h4>
+        <div class="grupo-controle">
+          <label>Lazy Loading de Imagens:</label>
+          <select id="edit-lazy-loading">
+            <option value="false">Desabilitado</option>
+            <option value="true" selected>Habilitado</option>
+          </select>
+          <small>Carrega imagens apenas quando necessário</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Compressão de Imagens:</label>
+          <select id="edit-compress-images">
+            <option value="false">Desabilitada</option>
+            <option value="true" selected>Habilitada</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Cache do Browser:</label>
+          <select id="edit-browser-cache">
+            <option value="false">Desabilitado</option>
+            <option value="true" selected>Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>PWA (Progressive Web App):</label>
+          <select id="edit-pwa-enabled">
+            <option value="false">Desabilitado</option>
+            <option value="true" selected>Habilitado</option>
+          </select>
+          <small>Permite instalar o site como app</small>
+        </div>
+
+        <h4>🌐 Idiomas e Localização</h4>
+        <div class="grupo-controle">
+          <label>Multi-idioma:</label>
+          <select id="edit-multi-idioma">
+            <option value="false" selected>Desabilitado</option>
+            <option value="true">Habilitado</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Idiomas Disponíveis:</label>
+          <input type="text" id="edit-idiomas-disponiveis" placeholder="pt-BR,en-US,es-ES">
+          <small>Separar por vírgulas</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Moeda Padrão:</label>
+          <select id="edit-moeda-padrao">
+            <option value="BRL" selected>Real Brasileiro (R$)</option>
+            <option value="USD">Dólar Americano ($)</option>
+            <option value="EUR">Euro (€)</option>
+            <option value="ARS">Peso Argentino</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="painel-acoes">
+        <button id="salvar-alteracoes" class="btn-salvar">💾 Salvar Alterações</button>
+        <button id="exportar-config" class="btn-exportar">📤 Exportar Config</button>
+        <button id="importar-config" class="btn-importar">📥 Importar Config</button>
+        <input type="file" id="file-importar" accept=".json" style="display: none;">
+        <button id="fechar-painel" class="btn-toggle" style="background: #dc3545;">❌ Fechar Painel</button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <h1 id="site-title" class="editavel" ondblclick="verificarSenhaAcesso()">Criado para pais e crianças</h1>
+    <nav>
+      <ul>
+        <li><a href="#produtos">Produtos</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li><a href="#" id="btn-carrinho" onclick="abrirModalCarrinho()">🛒 Carrinho (<span id="contador-carrinho">0</span>)</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="banner">
+    <h2 id="slogan" class="editavel">Os melhores produtos ao seu alcance!</h2>
+    <a href="#produtos" class="botao">Ver Produtos</a>
+  </section>
+
+  <section id="produtos">
+    <div class="secao-titulo">
+      <svg class="icone-secao" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z" fill="currentColor"/>
+        <path d="M9 8V17H11V8H9ZM13 8V17H15V8H13Z" fill="currentColor"/>
+      </svg>
+      <h3>Nossos Produtos</h3>
+    </div>
+    <div id="produtos-container">
+      <!-- Os produtos serão inseridos aqui dinamicamente -->
+    </div>
+  </section>
+
+  <section id="sobre">
+    <div class="secao-titulo">
+      <svg class="icone-secao" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H11V21H5V3H13V9H21ZM14 21V19H22V21H14ZM14 17V15H22V17H14ZM14 13V11H22V13H14Z" fill="currentColor"/>
+      </svg>
+      <h3>Sobre Nós</h3>
+    </div>
+    <div id="sobre-texto" class="editavel sobre-conteudo">
+      <p><strong>Nossa História:</strong> Nascemos da paixão por oferecer produtos de qualidade excepcional com preços justos. Desde 2024, nossa missão é conectar você aos melhores produtos do mercado.</p>
+
+      <p><strong>Nosso Diferencial:</strong></p>
+      <ul class="diferenciais-lista">
+        <li>✅ <strong>Curadoria Especializada:</strong> Cada produto é cuidadosamente selecionado</li>
+        <li>✅ <strong>Preços Competitivos:</strong> Sempre os melhores valores do mercado</li>
+        <li>✅ <strong>Atendimento Personalizado:</strong> Suporte via WhatsApp em tempo real</li>
+        <li>✅ <strong>Entrega Rápida:</strong> Produtos enviados com máxima agilidade</li>
+        <li>✅ <strong>Garantia de Satisfação:</strong> Sua satisfação é nossa prioridade</li>
+      </ul>
+
+      <p><em>Construído com tecnologia de ponta para oferecer a melhor experiência de compra online.</em></p>
+    </div>
+  </section>
+
+  <section id="avaliacoes">
+    <div class="secao-titulo">
+      <svg class="icone-secao" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" fill="currentColor"/>
+      </svg>
+      <h3>O Que Nossos Clientes Dizem</h3>
+    </div>
+
+    <div class="avaliacoes-container">
+      <!-- As avaliações serão inseridas aqui dinamicamente pelo JavaScript -->
+    </div>
+  </section>
+
+  <section id="contato">
+    <div class="secao-titulo">
+      <svg class="icone-secao" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="currentColor"/>
+      </svg>
+      <h3>Fale Conosco</h3>
+    </div>
+    <div class="contato-info">
+      <p class="contato-item">
+        <svg class="icone-contato" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="currentColor"/>
+        </svg>        Email: <a href="mailto:exemplo@email.com" id="email-link">exemplo@email.com</a>
+      </p>
+      <p class="contato-item">
+        <svg class="icone-contato" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.18C15.69 14.9 16.08 14.82 16.43 14.93C17.55 15.3 18.75 15.5 20 15.5C20.55 15.5 21 15.95 21 16.5V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z" fill="currentColor"/>
+        </svg>
+        WhatsApp: <a href="https://wa.me/00000000000" target="_blank" id="whatsapp-link">(00) 00000-0000</a>
+      </p>
+      <p class="contato-item">
+        <svg class="icone-contato" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22S22 17.52 22 12S17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12S7.59 4 12 4S20 7.59 20 12S16.41 20 12 20ZM8 12L10 14L16 8L14.59 6.58L10 11.17L9.41 10.59L8 12Z" fill="currentColor"/>
+        </svg>
+        Telegram: <a href="https://t.me/seuusuario" target="_blank" id="telegram-link">@seuusuario</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Container para páginas personalizadas -->
+  <div id="paginas-personalizadas">
+    <!-- Páginas personalizadas serão inseridas aqui dinamicamente -->
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div id="redes-sociais" class="redes-sociais">
+        <!-- Links de redes sociais serão inseridos dinamicamente -->
+      </div>
+
+      <div class="footer-info">
+        <div class="info-legal">
+          <p>&copy; 2025 <span id="nome-loja">Minha Loja</span>. Todos os direitos reservados.</p>
+          <p class="cnpj">CNPJ: 00.000.000/0001-00</p>
+        </div>
+
+        <div class="links-legais">
+          <a href="javascript:abrirModalTermos()" class="link-legal">Termos de Uso</a>
+          <span class="separador">|</span>
+          <a href="javascript:abrirModalPrivacidade()" class="link-legal">Política de Privacidade</a>
+          <span class="separador">|</span>
+          <a href="javascript:abrirModalTrocas()" class="link-legal">Trocas e Devoluções</a>
+        </div>
+      </div>
+
+      <div class="powered-by">
+        <p>Desenvolvido com tecnologia moderna para sua melhor experiência de compra</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal do Carrinho -->
+  <div id="modal-carrinho" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModalCarrinho()">&times;</span>
+      <h3>🛒 Demonstrar Interesse</h3>
+      <div id="itens-carrinho"></div>
+      <div class="total-carrinho">
+        <h4>Total Estimado: <span id="total-carrinho">R$ 0,00</span></h4>
+        <small style="color: #666;">*Pagamento será feito na Kiwify</small>
+      </div>
+      <div class="grupo-controle">
+        <label>Nome Completo:</label>
+        <input type="text" id="cliente-nome" placeholder="Digite seu nome completo" required>
+      </div>
+      <div class="grupo-controle">
+        <label>Telefone com DDD:</label>
+        <input type="tel" id="cliente-telefone" placeholder="(98) 98919-0240" required maxlength="15" pattern="\(\d{2}\)\s\d{4,5}-\d{4}">
+        <small>Formato: (XX) XXXXX-XXXX</small>
+      </div>
+      <div class="grupo-controle">
+        <label>Endereço Completo:</label>
+        <textarea id="cliente-endereco" placeholder="Rua Nome da Rua, 123, Bairro, Cidade - Estado, CEP: 12345-678" required minlength="20"></textarea>
+        <small>Inclua: Rua, número, bairro, cidade, estado e CEP</small>
+      </div>
+      <button id="finalizar-compra" class="btn-enviar-interesse">📱 Enviar Interesse via WhatsApp</button>
+      <small style="display: block; margin-top: 10px; color: #666; text-align: center;">
+        📝 Para finalizar a compra, clique em "Comprar" nos produtos desejados
+      </small>
+    </div>
+  </div>
+
+  <!-- Modal para adicionar produtos -->
+  <div id="modal-produto" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Adicionar/Editar Produto</h3>
+      <div class="grupo-controle">
+        <label>Nome do Produto:</label>
+        <input type="text" id="produto-nome" placeholder="Digite o nome do produto">
+      </div>
+      <div class="grupo-controle">
+        <label>Descrição:</label>
+        <textarea id="produto-descricao" placeholder="Descreva o produto brevemente"></textarea>
+      </div>
+      <div class="grupo-controle">
+        <label>Preço:</label>
+        <input type="text" id="produto-preco" placeholder="R$ 00,00">
+      </div>
+      <div class="grupo-controle">
+        <label>Imagem do Produto (Opcional):</label>
+        <div class="upload-opcoes">
+          <input type="url" id="produto-imagem" placeholder="https://exemplo.com/imagem.jpg">
+          <div class="upload-ou">OU</div>
+          <input type="file" id="produto-foto" accept="image/*" multiple="false" style="display: none;">
+          <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('produto-imagem', 'preview-imagem')">
+            📁 Escolher da Galeria
+          </button>
+          <div class="upload-info">
+            <small>📁 <strong>Acesso:</strong> Armazenamento interno e galeria de fotos</small>
+            <small>📐 <strong>Dimensões recomendadas:</strong> 800x600 pixels (proporção 4:3)</small>
+            <small>📂 <strong>Formatos aceitos:</strong> JPG, PNG, WebP, GIF, BMP, SVG</small>
+            <small>📏 <strong>Tamanho máximo:</strong> 10MB</small>
+            <small>🔒 <strong>Privacidade:</strong> Suas fotos ficam apenas no seu dispositivo</small>
+            <small>⚡ <strong>Otimização:</strong> Imagens são automaticamente otimizadas</small>
+          </div>
+          <div id="preview-imagem" class="preview-container"></div>
+        </div>
+        <small>💡 Dica: Para melhor qualidade, use fotos com boa iluminação e fundo limpo</small>
+        <small>📷 Se não adicionar imagem, será usado um placeholder automático</small>
+      </div>
+      <div class="grupo-controle">
+        <label>Categoria:</label>
+        <input type="text" id="produto-categoria" placeholder="Ex: Roupas, Eletrônicos, Casa">
+      </div>
+      <div class="grupo-controle">
+        <label>Estoque:</label>
+        <input type="number" id="produto-estoque" placeholder="0" min="0">
+      </div>
+      <div class="grupo-controle">
+        <label>Preço Original (para desconto):</label>
+        <input type="text" id="produto-preco-original" placeholder="R$ 00,00">
+      </div>
+      <div class="grupo-controle">
+        <label>Link da Kiwify (Pagamento):</label>
+        <input type="url" id="produto-link-kiwify" placeholder="https://kiwify.com.br/seu-produto">
+        <small>Link para pagamento via Kiwify</small>
+      </div>
+      <div class="grupo-controle">
+        <label>Link do WhatsApp:</label>
+        <input type="url" id="produto-link" placeholder="https://wa.me/5511999999999">
+        <small>Exemplo: https://wa.me/5511999999999?text=Olá, tenho interesse no produto</small>
+      </div>
+      <button id="salvar-produto" class="btn-salvar">Salvar Produto</button>
+    </div>
+  </div>
+
+   <!-- Modal para adicionar avaliação -->
+   <div id="modal-avaliacao" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Adicionar Avaliação</h3>
+        <div class="grupo-controle">
+          <label>Nome do Cliente:</label>
+          <input type="text" id="avaliacao-nome" placeholder="Nome do cliente">
+        </div>
+        <div class="grupo-controle">
+          <label>Foto do Cliente:</label>
+          <div class="upload-opcoes">
+            <input type="url" id="avaliacao-foto" placeholder="https://exemplo.com/foto.jpg">
+            <div class="upload-ou">OU</div>
+            <button type="button" class="btn-upload" onclick="abrirGaleriaDispositivo('avaliacao-foto', 'preview-avaliacao')">
+              📁 Escolher da Galeria
+            </button>
+            <div class="upload-info">
+              <small>📁 <strong>Acesso:</strong> Armazenamento interno e galeria</small>
+              <small>📏 <strong>Tamanho máximo:</strong> 10MB</small>
+              <small>⚡ <strong>Otimização automática</strong></small>
+            </div>
+            <div id="preview-avaliacao" class="preview-container"></div>
+          </div>
+        </div>
+        <div class="grupo-controle">
+          <label>Avaliação (Estrelas):</label>
+          <select id="avaliacao-estrelas">
+            <option value="5">⭐⭐⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="1">⭐</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Comentário:</label>
+          <textarea id="avaliacao-comentario" placeholder="Comentário do cliente"></textarea>
+        </div>
+        <button id="salvar-avaliacao" class="btn-salvar">Salvar Avaliação</button>
+      </div>
+    </div>
+
+  <!-- Modal para criar/editar páginas personalizadas -->
+  <div id="modal-pagina" class="modal" style="display: none;">
+    <div class="modal-content modal-pagina-content">
+      <span class="close">&times;</span>
+      <h3 id="titulo-modal-pagina">Nova Página Personalizada</h3>
+
+      <div class="pagina-tabs">
+        <button class="pagina-tab-btn ativa" data-tab="config">⚙️ Configuração</button>
+        <button class="pagina-tab-btn" data-tab="design">🎨 Design</button>
+        <button class="pagina-tab-btn" data-tab="conteudo">📝 Conteúdo</button>
+        <button class="pagina-tab-btn" data-tab="preview">👁️ Preview</button>
+      </div>
+
+      <!-- Tab Configuração -->
+      <div id="tab-config" class="pagina-tab-content ativa">
+        <div class="grupo-controle">
+          <label>Nome da Página:</label>
+          <input type="text" id="pagina-nome" placeholder="Ex: Sobre Nós, Contato, Blog">
+        </div>
+        <div class="grupo-controle">
+          <label>URL da Página:</label>
+          <input type="text" id="pagina-url" placeholder="Ex: sobre, contato, blog (sem espaços)">
+          <small>A URL será: seusite.com/#página-url</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Ícone da Página:</label>
+          <input type="text" id="pagina-icone" placeholder="📄" maxlength="2">
+          <small>Use um emoji ou deixe vazio</small>
+        </div>
+        <div class="grupo-controle">
+          <label>Mostrar no Menu:</label>
+          <select id="pagina-menu">
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Tipo de Página:</label>
+          <select id="pagina-tipo">
+            <option value="custom">Página Personalizada</option>
+            <option value="contact">Formulário de Contato</option>
+            <option value="gallery">Galeria de Imagens</option>
+            <option value="blog">Blog/Artigos</option>
+            <option value="faq">Perguntas Frequentes</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tab Design -->
+      <div id="tab-design" class="pagina-tab-content">
+        <div class="grupo-controle">
+          <label>Layout da Página:</label>
+          <select id="pagina-layout">
+            <option value="full">Largura Total</option>
+            <option value="container" selected>Container Centralizado</option>
+            <option value="sidebar">Com Sidebar</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Cor de Fundo:</label>
+          <input type="color" id="pagina-cor-fundo" value="#ffffff">
+        </div>
+        <div class="grupo-controle">
+          <label>Imagem de Fundo (URL):</label>
+          <input type="url" id="pagina-bg-imagem" placeholder="https://exemplo.com/fundo.jpg">
+        </div>
+        <div class="grupo-controle">
+          <label>Espaçamento Interno:</label>
+          <select id="pagina-padding">
+            <option value="small">Pequeno</option>
+            <option value="medium" selected>Médio</option>
+            <option value="large">Grande</option>
+          </select>
+        </div>
+        <div class="grupo-controle">
+          <label>Animação de Entrada:</label>
+          <select id="pagina-animacao">
+            <option value="none">Nenhuma</option>
+            <option value="fadeIn" selected>Fade In</option>
+            <option value="slideIn">Slide In</option>
+            <option value="zoomIn">Zoom In</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tab Conteúdo -->
+      <div id="tab-conteudo" class="pagina-tab-content">
+        <div class="grupo-controle">
+          <label>Título da Página:</label>
+          <input type="text" id="pagina-titulo" placeholder="Título que aparecerá na página">
+        </div>
+        <div class="grupo-controle">
+          <label>Subtítulo:</label>
+          <input type="text" id="pagina-subtitulo" placeholder="Subtítulo opcional">
+        </div>
+        <div class="grupo-controle">
+          <label>Conteúdo HTML:</label>
+          <textarea id="pagina-conteudo" rows="15" placeholder="Digite o conteúdo da página em HTML..."></textarea>
+          <small>
+            <strong>Dicas:</strong><br>
+            • Use &lt;h3&gt; para títulos<br>
+            • Use &lt;p&gt; para parágrafos<br>
+            • Use &lt;img src="url"&gt; para imagens<br>
+            • Use &lt;a href="url"&gt; para links
+          </small>
+        </div>
+        <div class="editor-toolbar">
+          <button type="button" onclick="inserirHTML('h3', 'Título')" class="btn-editor">H3</button>
+          <button type="button" onclick="inserirHTML('p', 'Parágrafo')" class="btn-editor">P</button>
+          <button type="button" onclick="inserirHTML('strong', 'Negrito')" class="btn-editor">B</button>
+          <button type="button" onclick="inserirHTML('em', 'Itálico')" class="btn-editor">I</button>
+          <button type="button" onclick="inserirHTML('a', 'Link', 'href=&quot;#&quot;')" class="btn-editor">Link</button>
+          <button type="button" onclick="inserirImagem()" class="btn-editor">Img</button>
+        </div>
+      </div>
+
+      <!-- Tab Preview -->
+      <div id="tab-preview" class="pagina-tab-content">
+        <div id="pagina-preview" class="preview-container">
+          <p>O preview aparecerá aqui quando você adicionar conteúdo</p>
+        </div>
+      </div>
+
+      <div class="modal-acoes">
+        <button id="salvar-pagina" class="btn-salvar">💾 Salvar Página</button>
+        <button id="preview-pagina" class="btn-exportar">👁️ Atualizar Preview</button>
+        <button onclick="fecharModalPagina()" class="btn-cancelar">❌ Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
